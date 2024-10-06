@@ -40,20 +40,24 @@
         @else
             <div class="list-group">
                 @foreach ($students as $student)
-                    <a href="{{ route('reviews.index', [$assessment->id, $student['student']->id]) }}"
+                    <a href="{{ route('reviews.index', [$assessment->id, $student->id]) }}"
                         class="list-group-item list-group-item-action">
-                        <h5 class="mb-1">{{ $student['student']->name }}</h5>
+                        <h5 class="mb-1">{{ $student->name }}</h5>
                         <div>
-                            <small>Given Reviews: {{ $student['given_reviews_count'] }}</small>
+                            <small>Given Reviews: {{ $student->given_reviews_count }}</small>
                         </div>
                         <div>
-                            <small>Received Reviews: {{ $student['received_reviews_count'] }}</small>
+                            <small>Received Reviews: {{ $student->received_reviews_count }}</small>
                         </div>
                         <div>
-                            <small>Score: {{ $student['score'] ? $student['score'] . ' pts' : 'Unassigned' }}</small>
+                            <small>Score: {{ $student->score ? $student->score . ' pts' : 'Unassigned' }}</small>
                         </div>
                     </a>
                 @endforeach
+            </div>
+
+            <div class="mt-4">
+                {{ $students->links() }}
             </div>
         @endif
     </div>

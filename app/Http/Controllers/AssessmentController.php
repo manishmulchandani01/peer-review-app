@@ -63,22 +63,15 @@ class AssessmentController extends Controller
     public function show_teacher(string $id)
     {
         $assessment = Assessment::with('course.students')->findOrFail($id);
-        $all_students = $assessment->course->students;
+        $students = $assessment->course->students()->paginate(10);
 
-        $students = $all_students->map(function ($student) use ($assessment) {
-            $given_reviews_count = PeerReview::where('assessment_id', $assessment->id)->where('reviewer_id', $student->id)->count();
+        foreach ($students as $student) {
+            $student->given_reviews_count = PeerReview::where('assessment_id', $assessment->id)->where('reviewer_id', $student->id)->count();
 
-            $received_reviews_count = PeerReview::where('assessment_id', $assessment->id)->where('reviewee_id', $student->id)->count();
+            $student->received_reviews_count = PeerReview::where('assessment_id', $assessment->id)->where('reviewee_id', $student->id)->count();
 
-            $score = Score::where('assessment_id', $assessment->id)->where('student_id', $student->id)->value('score');
-
-            return [
-                'student' => $student,
-                'given_reviews_count' => $given_reviews_count,
-                'received_reviews_count' => $received_reviews_count,
-                'score' => $score,
-            ];
-        });
+            $student->score = Score::where('assessment_id', $assessment->id)->where('student_id', $student->id)->value('score');
+        }
 
         return view('assessments.show_teacher')->with('assessment', $assessment)->with('students', $students);
     }
