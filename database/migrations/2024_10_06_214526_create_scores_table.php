@@ -10,18 +10,14 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('peer_reviews', function (Blueprint $table) {
+        Schema::create('scores', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('assessment_id');
-            $table->unsignedBigInteger('reviewer_id');
-            $table->unsignedBigInteger('reviewee_id');
-            $table->text('text');
-            $table->integer('rating')->nullable();
+            $table->unsignedBigInteger('student_id');
+            $table->integer('score');
             $table->timestamps();
             $table->foreign('assessment_id')->references('id')->on('assessments')->onDelete('cascade');
-            $table->foreign('reviewer_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('reviewee_id')->references('id')->on('users')->onDelete('cascade');
-
+            $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -30,6 +26,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('peer_reviews');
+        Schema::dropIfExists('scores');
     }
 };

@@ -53,17 +53,17 @@ class User extends Authenticatable
         return $this->belongsToMany(Course::class, 'enrolments');
     }
 
-    public function reviewsWritten()
+    public function given_reviews()
     {
         return $this->hasMany(PeerReview::class, 'reviewer_id');
     }
 
-    public function reviewsReceived()
+    public function received_reviews()
     {
         return $this->hasMany(PeerReview::class, 'reviewee_id');
     }
 
-    public function groupAssignments()
+    public function group_assignments()
     {
         return $this->hasMany(GroupAssignment::class);
     }

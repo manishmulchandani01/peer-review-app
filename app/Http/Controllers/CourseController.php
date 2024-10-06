@@ -37,33 +37,34 @@ class CourseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $course_id)
-    {
-        $request->validate([
-            'title' => 'required|max:20',
-            'instruction' => 'required|string',
-            'reviews' => 'required|integer|min:1',
-            'max_score' => 'required|integer|between:1,100',
-            'due_date' => 'required|date',
-            'type' => 'required|in:student-select,teacher-assign',
-        ]);
+    // To be added
+    // public function store(Request $request, $course_id)
+    // {
+    //     $request->validate([
+    //         'title' => 'required|max:20',
+    //         'instruction' => 'required|string',
+    //         'reviews' => 'required|integer|min:1',
+    //         'max_score' => 'required|integer|between:1,100',
+    //         'due_date' => 'required|date',
+    //         'type' => 'required|in:student-select,teacher-assign',
+    //     ]);
 
-        if (auth()->user()->role !== 'teacher') {
-            return redirect()->back()->with('error', 'Unauthorised access');
-        }
+    //     if (auth()->user()->role !== 'teacher') {
+    //         return redirect()->back()->with('error', 'Unauthorised access');
+    //     }
 
-        Assessment::create([
-            'course_id' => $course_id,
-            'title' => $request->title,
-            'instruction' => $request->instruction,
-            'reviews' => $request->reviews,
-            'max_score' => $request->max_score,
-            'due_date' => $request->due_date,
-            'type' => $request->type,
-        ]);
+    //     Assessment::create([
+    //         'course_id' => $course_id,
+    //         'title' => $request->title,
+    //         'instruction' => $request->instruction,
+    //         'reviews' => $request->reviews,
+    //         'max_score' => $request->max_score,
+    //         'due_date' => $request->due_date,
+    //         'type' => $request->type,
+    //     ]);
 
-        return redirect()->back()->with('success', 'Assessment added successfully');
-    }
+    //     return redirect()->back()->with('success', 'Assessment added successfully');
+    // }
 
     /**
      * Display the specified resource.

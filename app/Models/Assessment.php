@@ -19,6 +19,10 @@ class Assessment extends Model
         'type',
     ];
 
+    protected $casts = [
+        'due_date' => 'datetime'
+    ];
+
     public function course()
     {
         return $this->belongsTo(Course::class);
@@ -29,7 +33,7 @@ class Assessment extends Model
         return $this->hasMany(PeerReview::class);
     }
 
-    public function groupAssignments()
+    public function group_assignments()
     {
         return $this->hasMany(GroupAssignment::class);
     }

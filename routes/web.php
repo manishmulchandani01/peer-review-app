@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\AssessmentController;
+use App\Http\Controllers\PeerReviewController;
+use App\Http\Controllers\ScoreController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -22,8 +24,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/', [CourseController::class, 'index'])->name('home');
     Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.show');
     Route::post('/courses/{id}/enrol', [CourseController::class, 'enrol'])->name('courses.enrol');
-    Route::get('/assessments/{id}', [AssessmentController::class, 'show'])->name('assessments.show');
-    Route::post('/courses/{id}/assessments', [CourseController::class, 'store'])->name('assessments.store');
+    Route::get('/assessments/{id}/teacher', [AssessmentController::class, 'show_teacher'])->name('assessments.show_teacher');
+    Route::get('/assessments/{id}/student', [AssessmentController::class, 'show_student'])->name('assessments.show_student');
+    Route::post('/courses/{id}/assessments', [AssessmentController::class, 'store'])->name('assessments.store');
+    Route::get('/assessments/{id}/edit', [AssessmentController::class, 'edit'])->name('assessments.edit');
+    Route::put('/assessments/{id}', [AssessmentController::class, 'update'])->name('assessments.update');
+    Route::post('/assessments/{id}/submit_review', [AssessmentController::class, 'submit_review'])->name('assessments.submit_review');
+    Route::get('/assessments/{assessment_id}/students/{student_id}/reviews', [PeerReviewController::class, 'index'])->name('reviews.index');
+    Route::post('/assessments/{assessment_id}/students/{student_id}/assign_score', [ScoreController::class, 'assign_score'])->name('scores.assign_score');
 });
 
 require __DIR__.'/auth.php';

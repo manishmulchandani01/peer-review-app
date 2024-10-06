@@ -5,16 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PeerReview extends Model
+class Score extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'assessment_id',
-        'reviewer_id',
-        'reviewee_id',
-        'text',
-        'rating',
+        'student_id',
+        'score',
     ];
 
     public function assessment()
@@ -22,13 +20,8 @@ class PeerReview extends Model
         return $this->belongsTo(Assessment::class);
     }
 
-    public function reviewer()
+    public function student()
     {
-        return $this->belongsTo(User::class, 'reviewer_id');
-    }
-
-    public function reviewee()
-    {
-        return $this->belongsTo(User::class, 'reviewee_id');
+        return $this->belongsTo(User::class, 'student_id');
     }
 }

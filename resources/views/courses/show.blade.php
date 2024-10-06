@@ -17,18 +17,18 @@
             </ul>
         @endif
 
-        <h2>Assessments (Peer Reviews)</h2>
+        <h2>Assessments</h2>
         @if ($course->assessments->isEmpty())
             <div class="alert alert-info" role="alert">
-                No assessments available for this course.
+                No assessments
             </div>
         @else
             <div class="list-group mb-4">
                 @foreach ($course->assessments as $assessment)
                     <a class="list-group-item list-group-item-action"
-                        href="{{ route('assessments.show', $assessment->id) }}">
+                        href="{{ auth()->user()->role === 'teacher' ? route('assessments.show_teacher', $assessment->id) : route('assessments.show_student', $assessment->id) }}">
                         <h5 class="mb-1">{{ $assessment->title }}</h5>
-                        <small>Due: {{ $assessment->due_date }}</small>
+                        <small>Due: {{ $assessment->due_date->format('d M y, h:i A') }}</small>
                     </a>
                 @endforeach
             </div>
