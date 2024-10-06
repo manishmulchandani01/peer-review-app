@@ -18,7 +18,7 @@ return new class () extends Migration {
             $table->integer('reviews');
             $table->integer('max_score');
             $table->dateTime('due_date');
-            $table->enum('assessment_type', ['student-select', 'teacher-assign']);
+            $table->enum('type', ['student-select', 'teacher-assign']);
             $table->timestamps();
             $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
         });

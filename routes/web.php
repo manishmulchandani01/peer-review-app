@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\AssessmentController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -18,9 +19,11 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/', function () {
-        return view('welcome');
-    });
+    Route::get('/', [CourseController::class, 'index'])->name('home');
+    Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.show');
+    Route::post('/courses/{id}/enrol', [CourseController::class, 'enrol'])->name('courses.enrol');
+    Route::get('/assessments/{id}', [AssessmentController::class, 'show'])->name('assessments.show');
+    Route::post('/courses/{id}/assessments', [CourseController::class, 'store'])->name('assessments.store');
 });
 
 require __DIR__.'/auth.php';

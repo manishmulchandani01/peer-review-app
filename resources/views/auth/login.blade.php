@@ -8,7 +8,7 @@
         <!-- sNumber -->
         <div>
             <x-input-label for="s_number" :value="__('sNumber')" />
-            <x-text-input id="s_number" class="block mt-1 w-full" type="text" name="s_number" :value="old('s_number')" required
+            <x-text-input id="s_number" class="block mt-1 w-full" type="text" name="s_number" :value="old('s_number')"
                 autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('s_number')" class="mt-2" />
         </div>
@@ -17,7 +17,7 @@
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
 
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required
+            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password"
                 autocomplete="current-password" />
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
