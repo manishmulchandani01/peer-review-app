@@ -77,5 +77,19 @@ class EnrolmentsTableSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        DB::table('enrolments')->insert([
+            'user_id' => '6',
+            'course_id' => '2',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('enrolments')->insert([
+            'user_id' => '7',
+            'course_id' => '2',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

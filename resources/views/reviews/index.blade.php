@@ -71,7 +71,7 @@
             </ul>
         @endif
 
-        <h2 class="mb-4">Assign Score</h2>
+        <h2 class="mb-4">Assign/Update Score</h2>
         <form action="{{ route('scores.assign_score', [$assessment->id, $student->id]) }}" method="POST">
             @csrf
             <div class="form-group">
