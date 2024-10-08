@@ -8,6 +8,7 @@ use App\Models\Course;
 use App\Models\User;
 use App\Models\Assessment;
 use App\Models\Enrolment;
+use App\Models\PendingEnrolment;
 use Illuminate\Support\Facades\Validator;
 
 class CourseController extends Controller
@@ -187,10 +188,15 @@ class CourseController extends Controller
         }
 
         foreach ($course_data['students'] as $student_s_number) {
-            $enroled_students_s_numbers = $course->students->pluck('s_number')->toArray();
+            $student = User::where('s_number', $student_s_number)->first();
 
-            if (!in_array($student_s_number, $enroled_students_s_numbers)) {
+            if ($student) {
                 Enrolment::create([
+                    's_number' => $student->s_number,
+                    'course_id' => $course->id,
+                ]);
+            } else {
+                PendingEnrolment::create([
                     's_number' => $student_s_number,
                     'course_id' => $course->id,
                 ]);

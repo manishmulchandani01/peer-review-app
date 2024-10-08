@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Models\PendingEnrolment;
+use App\Models\Enrolment;
 
 class RegisteredUserController extends Controller
 {
@@ -43,6 +45,17 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'role' => 'student',
         ]);
+
+        $pending_enrolments = PendingEnrolment::where('s_number', $user->s_number)->get();
+
+        foreach ($pending_enrolments as $pending_enrolment) {
+            Enrolment::create([
+                's_number' => $user->s_number,
+                'course_id' => $pending_enrolment->course_id,
+            ]);
+
+            $pending_enrolment->delete();
+        }
 
         event(new Registered($user));
 
