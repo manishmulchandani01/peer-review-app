@@ -2,6 +2,8 @@
 
 @section('content')
     <div class="container">
+        <h1 class="mb-4">{{ $assessment->title }}</h1>
+
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -13,8 +15,6 @@
                 {{ session('error') }}
             </div>
         @endif
-
-        <h1 class="mb-4">{{ $assessment->title }}</h1>
 
         <div class="card mb-4">
             <div class="card-body">

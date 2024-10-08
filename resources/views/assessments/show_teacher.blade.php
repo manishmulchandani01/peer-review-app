@@ -2,6 +2,13 @@
 
 @section('content')
     <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <h1 class="mb-4">{{ $assessment->title }}</h1>
+            @if (auth()->user()->role === 'teacher')
+                <a href="{{ route('assessments.edit', $assessment->id) }}" class="btn btn-primary">Edit</a>
+            @endif
+        </div>
+
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -13,12 +20,6 @@
                 {{ session('error') }}
             </div>
         @endif
-        <div class="d-flex justify-content-between align-items-center">
-            <h1 class="mb-4">{{ $assessment->title }}</h1>
-            @if (auth()->user()->role === 'teacher')
-                <a href="{{ route('assessments.edit', $assessment->id) }}" class="btn btn-primary">Edit</a>
-            @endif
-        </div>
 
         <div class="card mb-4">
             <div class="card-body">

@@ -22,6 +22,8 @@ use App\Http\Controllers\ScoreController;
 
 Route::middleware('auth')->group(function () {
     Route::get('/', [CourseController::class, 'index'])->name('home');
+    Route::get('/courses/upload', [CourseController::class, 'upload'])->name('courses.upload');
+    Route::post('/courses/upload_file', [CourseController::class, 'upload_file'])->name('courses.upload_file');
     Route::get('/courses/{id}', [CourseController::class, 'show'])->name('courses.show');
     Route::post('/courses/{id}/enrol', [CourseController::class, 'enrol'])->name('courses.enrol');
     Route::get('/assessments/{id}/teacher', [AssessmentController::class, 'show_teacher'])->name('assessments.show_teacher');

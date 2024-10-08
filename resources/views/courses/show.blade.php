@@ -2,6 +2,8 @@
 
 @section('content')
     <div class="container">
+        <h1 class="mb-4">{{ $course->name }} ({{ $course->code }})</h1>
+
         @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
@@ -13,8 +15,6 @@
                 {{ session('error') }}
             </div>
         @endif
-
-        <h1 class="mb-4">{{ $course->name }} ({{ $course->code }})</h1>
 
         <h2>Teachers</h2>
         @if ($course->teachers->isEmpty())
@@ -56,7 +56,7 @@
                     <select name="student_id" id="student_id" class="form-control">
                         <option value="">Select Student</option>
                         @foreach ($students as $student)
-                            <option value="{{ $student->id }}">{{ $student->name }}</option>
+                            <option value="{{ $student->id }}">{{ $student->name }} ({{ $student->s_number }})</option>
                         @endforeach
                     </select>
                     @error('student_id')
