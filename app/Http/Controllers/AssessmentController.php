@@ -8,6 +8,7 @@ use App\Models\Assessment;
 use App\Models\PeerReview;
 use App\Models\GroupAssignment;
 use App\Models\Score;
+use App\Models\User;
 
 class AssessmentController extends Controller
 {
@@ -43,7 +44,13 @@ class AssessmentController extends Controller
         ]);
 
         if (auth()->user()->role !== 'teacher') {
-            return redirect()->back()->with('error', 'Unauthorised access');
+            return redirect("/")->with('error', 'Unauthorised access');
+        }
+
+        $user = User::findOrFail(Auth::user()->id);
+
+        if (!$user->courses()->where('course_id', $course_id)->exists()) {
+            return redirect("/")->with('error', 'Unauthorised access.');
         }
 
         $assessment = Assessment::create([
@@ -95,6 +102,12 @@ class AssessmentController extends Controller
     public function show_teacher(string $id)
     {
         $assessment = Assessment::with('course.students')->findOrFail($id);
+
+        $user = Auth::user();
+        if ($user->role !== 'teacher' || !$user->courses()->where('course_id', $assessment->course_id)->exists()) {
+            return redirect("/")->with('error', 'Unauthorised access.');
+        }
+
         $students = $assessment->course->students()->paginate(10);
 
         foreach ($students as $student) {
@@ -113,9 +126,13 @@ class AssessmentController extends Controller
      */
     public function show_student(string $id)
     {
+        $student = Auth::user();
         $assessment = Assessment::with('course.students')->findOrFail($id);
 
-        $student = Auth::user();
+        $user = Auth::user();
+        if ($user->role !== 'student' || !$user->courses()->where('course_id', $assessment->course_id)->exists()) {
+            return redirect("/")->with('error', 'Unauthorised access.');
+        }
 
         $given_reviews = PeerReview::where('assessment_id', $id)->where('reviewer_id', $student->id)->get();
 
@@ -143,6 +160,11 @@ class AssessmentController extends Controller
     {
         $assessment = Assessment::findOrFail($id);
 
+        $user = Auth::user();
+        if ($user->role !== 'teacher' || !$user->courses()->where('course_id', $assessment->course_id)->exists()) {
+            return redirect("/")->with('error', 'Unauthorised access.');
+        }
+
         $has_submissions = PeerReview::where('assessment_id', $id)->count() > 0;
 
         if ($has_submissions) {
@@ -168,6 +190,11 @@ class AssessmentController extends Controller
          ]);
 
         $assessment = Assessment::findOrFail($id);
+
+        $user = Auth::user();
+        if ($user->role !== 'teacher' || !$user->courses()->where('course_id', $assessment->course_id)->exists()) {
+            return redirect("/")->with('error', 'Unauthorised access.');
+        }
 
         $has_submissions = PeerReview::where('assessment_id', $id)->count() > 0;
 

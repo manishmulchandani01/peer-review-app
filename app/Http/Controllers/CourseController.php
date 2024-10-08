@@ -151,6 +151,9 @@ class CourseController extends Controller
             'code' => $course_data['course']['code'],
         ]);
 
+        $current_user = Auth::user();
+        $course->teachers()->attach($current_user->s_number);
+
         foreach ($course_data['teachers'] as $teacher_s_number) {
             $teacher = User::where('s_number', $teacher_s_number)->first();
 
@@ -162,7 +165,9 @@ class CourseController extends Controller
                 return redirect()->back()->with('error', "Provided s-number in teacher's section is not a teacher.");
             }
 
-            $course->teachers()->attach($teacher->s_number);
+            if (!$course->teachers()->where('users.s_number', $teacher->s_number)->exists()) {
+                $course->teachers()->attach($teacher->s_number);
+            }
         }
 
         foreach ($course_data['assessments'] as $assessment_line) {
@@ -218,6 +223,16 @@ class CourseController extends Controller
     {
         $course = Course::with(['teachers', 'assessments'])->findOrFail($id);
 
+        if (Auth::user()->role === 'teacher') {
+            if (!$course->teachers->contains('s_number', Auth::user()->s_number)) {
+                return redirect("/")->with('error', 'Unauthorised access.');
+            }
+        } elseif (Auth::user()->role === 'student') {
+            if (!$course->students->contains('s_number', Auth::user()->s_number)) {
+                return redirect("/")->with('error', 'Unauthorised access.');
+            }
+        }
+
         $enroled_student_ids = $course->students->pluck('id')->toArray();
         $students = User::where('role', 'student')->whereNotIn('id', $enroled_student_ids)->get();
 
@@ -252,7 +267,7 @@ class CourseController extends Controller
     {
         $course = Course::findOrFail($id);
 
-        if (auth()->user()->role !== 'teacher') {
+        if (auth()->user()->role !== 'teacher' || !$course->teachers->contains('s_number', Auth::user()->s_number)) {
             return redirect()->back()->with('error', 'Unauthorised access');
         }
 
@@ -267,24 +282,3 @@ class CourseController extends Controller
         return redirect()->back()->with('success', 'Student enroled successfully');
     }
 }
-
-/*
-
-Syntax for file:
-
-course
-"Work Integrated Learning - Single Project","7821ICT"
-
-teachers
-s0000001
-s0000002
-
-assessments
-"Week 1 Peer Review","As the title suggests review each other ;)","1","100","2024-10-20 23:59:00"
-"Week 2 Peer Review","As the title suggests review each other ;)","1","100","2024-10-20 23:59:00"
-
-students
-s0000005
-s0000006
-
-*/

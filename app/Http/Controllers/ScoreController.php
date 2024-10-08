@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Score;
 use App\Models\Assessment;
+use Illuminate\Support\Facades\Auth;
 
 class ScoreController extends Controller
 {
     public function assign_score(Request $request, $assessment_id, $student_id)
     {
         $assessment = Assessment::findOrFail($assessment_id);
+
+        $user = Auth::user();
+        if ($user->role !== 'teacher' || !$user->courses()->where('course_id', $assessment->course_id)->exists()) {
+            return redirect("/")->with('error', 'Unauthorised access.');
+        }
 
         $request->validate([
             'score' => 'required|integer|min:1|max:' . $assessment->max_score,
