@@ -76,6 +76,15 @@
                 @enderror
             </div>
 
+            <div class="form-group">
+                <label for="group_size">Group Size (Minimum 2 and required with review type teacher assign):</label>
+                <input type="number" name="group_size" id="group_size" class="form-control"
+                    value="{{ old('group_size') }}">
+                @error('group_size')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
+            </div>
+
             <div class="d-flex justify-content-start mt-3">
                 <button type="submit" class="btn btn-primary">Save</button>
             </div>

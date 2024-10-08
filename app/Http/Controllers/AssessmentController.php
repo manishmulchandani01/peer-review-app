@@ -67,8 +67,9 @@ class AssessmentController extends Controller
 
     private function group_assignments(Assessment $assessment, $group_size)
     {
+        GroupAssignment::where('assessment_id', $assessment->id)->delete();
+
         $students = $assessment->course->students;
-        $group_size = 2;
         $g_number = 1;
         $counter = 0;
         $random_assigned_students = $students->shuffle();
@@ -163,6 +164,7 @@ class AssessmentController extends Controller
              'max_score' => 'required|integer|between:1,100',
              'due_date' => 'required|date',
              'type' => 'required|in:student-select,teacher-assign',
+             'group_size' => 'nullable|integer|min:2'
          ]);
 
         $assessment = Assessment::findOrFail($id);
@@ -181,6 +183,14 @@ class AssessmentController extends Controller
             'due_date' => $request->due_date,
             'type' => $request->type,
         ]);
+
+        $group_size = $request->input('group_size');
+
+        if ($request->type === 'teacher-assign' && !empty($request->group_size)) {
+            $this->group_assignments($assessment, $group_size);
+        } elseif ($request->type === 'student-select') {
+            GroupAssignment::where('assessment_id', $id)->delete();
+        }
 
         return redirect()->route('assessments.show_teacher', $assessment->id)->with('success', 'Assessment updated successfully');
     }
@@ -209,7 +219,7 @@ class AssessmentController extends Controller
 
         if ($assessment->type === 'teacher-assign') {
             $reviewers_group = GroupAssignment::where('assessment_id', $id)->where('student_id', $student->id)->first();
-            $reviewees_group = GroupAssignment::where('assessment_id', id)->where('student_id', $request->reviewee_id)->first();
+            $reviewees_group = GroupAssignment::where('assessment_id', $id)->where('student_id', $request->reviewee_id)->first();
 
             if (!$reviewers_group || !$reviewees_group || $reviewers_group->g_number !== $reviewees_group->g_number) {
                 return redirect()->back()->with('error', 'You can only review students in your assigned group.');

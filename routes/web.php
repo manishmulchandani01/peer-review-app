@@ -35,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/assessments/{assessment_id}/students/{student_id}/reviews', [PeerReviewController::class, 'index'])->name('reviews.index');
     Route::post('/reviews/{id}/rate', [PeerReviewController::class, 'rate'])->name('reviews.rate');
     Route::get('/reviews/top_five_reviewers', [PeerReviewController::class, 'top_five_reviewers'])->name('reviews.top_five_reviewers');
+    Route::post('/assessments/{assessment_id}/students/{student_id}/assign_score', [ScoreController::class, 'assign_score'])->name('scores.assign_score');
 });
 
 require __DIR__.'/auth.php';

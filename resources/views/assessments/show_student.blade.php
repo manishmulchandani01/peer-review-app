@@ -25,6 +25,30 @@
             </div>
         </div>
 
+        <h2 class="mb-4">Assigned Groups</h2>
+        @if ($assessment->group_assignments->isEmpty())
+            <div class="alert alert-info" role="alert">
+                There are no group assignments.
+            </div>
+        @else
+            <div class="list-group mb-4">
+                @php
+                    $groupedAssignments = $assessment->group_assignments->groupBy('g_number');
+                @endphp
+
+                @foreach ($groupedAssignments as $g_number => $group)
+                    <div class="list-group-item">
+                        <h5 class="mb-1">Group {{ $g_number }}</h5>
+                        <ul>
+                            @foreach ($group as $assignment)
+                                <li>{{ $assignment->student->name }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+
         <h2 class="mb-4">Given Reviews</h2>
         @if ($given_reviews->isEmpty())
             <div class="alert alert-info" role="alert">
