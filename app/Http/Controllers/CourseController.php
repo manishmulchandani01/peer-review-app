@@ -187,16 +187,14 @@ class CourseController extends Controller
         }
 
         foreach ($course_data['students'] as $student_s_number) {
-            $student = User::where('s_number', $student_s_number)->first();
+            $enroled_students_s_numbers = $course->students->pluck('s_number')->toArray();
 
-            if (!$student) {
-                return redirect()->back()->with('error', "Provided student's s-number does not exists.");
+            if (!in_array($student_s_number, $enroled_students_s_numbers)) {
+                Enrolment::create([
+                    's_number' => $student_s_number,
+                    'course_id' => $course->id,
+                ]);
             }
-
-            Enrolment::create([
-                's_number' => $student->s_number,
-                'course_id' => $course->id,
-            ]);
         }
 
         return redirect()->back()->with('success', 'Course information uploaded successfully.');
