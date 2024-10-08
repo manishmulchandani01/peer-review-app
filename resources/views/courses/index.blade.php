@@ -2,6 +2,12 @@
 
 @section('content')
     <div class="container">
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <h1 class="mb-4">My Courses</h1>
 
         @if ($courses->isEmpty())
