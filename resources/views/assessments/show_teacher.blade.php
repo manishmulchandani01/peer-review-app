@@ -31,8 +31,6 @@
         </div>
 
         <h2 class="mb-4">List of all students</h2>
-        <div class="list-group">
-        </div>
 
         @if ($students->isEmpty())
             <div class="alert alert-info" role="alert">
@@ -59,6 +57,22 @@
 
             <div class="mt-4">
                 {{ $students->links() }}
+            </div>
+        @endif
+
+        <h2 class="mb-4">List of pending enrolments</h2>
+
+        @if ($assessment->course->pending_enrolments->isEmpty())
+            <div class="alert alert-info" role="alert">
+                There are no pending enrolments.
+            </div>
+        @else
+            <div class="list-group">
+                @foreach ($assessment->course->pending_enrolments as $student)
+                    <a class="list-group-item">
+                        <h5 class="mb-1">{{ $student->s_number }}</h5>
+                    </a>
+                @endforeach
             </div>
         @endif
     </div>

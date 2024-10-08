@@ -188,18 +188,23 @@ class CourseController extends Controller
         }
 
         foreach ($course_data['students'] as $student_s_number) {
-            $student = User::where('s_number', $student_s_number)->first();
+            $existing_enrolment = Enrolment::where('s_number', $student_s_number)->where('course_id', $course->id)->first();
+            $existing_pending_enrolment = PendingEnrolment::where('s_number', $student_s_number)->where('course_id', $course->id)->first();
 
-            if ($student) {
-                Enrolment::create([
-                    's_number' => $student->s_number,
-                    'course_id' => $course->id,
-                ]);
-            } else {
-                PendingEnrolment::create([
-                    's_number' => $student_s_number,
-                    'course_id' => $course->id,
-                ]);
+            if (!$existing_enrolment && !$existing_pending_enrolment) {
+                $student = User::where('s_number', $student_s_number)->first();
+
+                if ($student) {
+                    Enrolment::create([
+                        's_number' => $student->s_number,
+                        'course_id' => $course->id,
+                    ]);
+                } else {
+                    PendingEnrolment::create([
+                        's_number' => $student_s_number,
+                        'course_id' => $course->id,
+                    ]);
+                }
             }
         }
 
