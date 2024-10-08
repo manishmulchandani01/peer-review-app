@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\PeerReview;
 use App\Models\Assessment;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class PeerReviewController extends Controller
 {
@@ -69,5 +70,26 @@ class PeerReviewController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function rate(Request $request, $review_id)
+    {
+        $review = PeerReview::findOrFail($review_id);
+
+        $request->validate([
+            'rate' => 'required|integer|min:1|max:5',
+        ]);
+
+        $review->rating = $request->input('rate');
+        $review->save();
+
+        return redirect()->back()->with('success', 'Review rated successfully');
+    }
+
+    public function top_five()
+    {
+        $top_five = PeerReview::select('reviewer_id', DB::raw('AVG(rating) as avg_rating'))->whereNotNull('rate')->groupBy('reviewer_id')->orderByDesc('avg_rating')->take(5)->with('reviewer')->get();
+
+        return view('reviews.top_five')->with('top_five', $top_five);
     }
 }

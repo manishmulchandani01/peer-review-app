@@ -104,6 +104,30 @@
                         <div class="mt-2">
                             <strong>Review:</strong> {{ $review->text }}
                         </div>
+                        <div class="mt-2">
+                            @if ($review->rating)
+                                <strong>Rating:</strong> {{ $review->rating }}
+                            @else
+                                <form action="{{ route('reviews.rate', $review->id) }}" method="POST">
+                                    @csrf
+                                    <div class="form-group">
+                                        <label for="rate">Rate:</label>
+                                        <select name="rate" id="rate" class="form-control">
+                                            <option value="">Select Rating</option>
+                                            <option value="1" {{ old('rate') == 1 ? 'selected' : '' }}>1</option>
+                                            <option value="2" {{ old('rate') == 2 ? 'selected' : '' }}>2</option>
+                                            <option value="3" {{ old('rate') == 3 ? 'selected' : '' }}>3</option>
+                                            <option value="4" {{ old('rate') == 4 ? 'selected' : '' }}>4</option>
+                                            <option value="5" {{ old('rate') == 5 ? 'selected' : '' }}>5</option>
+                                        </select>
+                                        @error('rate')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+                                    <button type="submit" class="mt-3 btn btn-primary">Rate</button>
+                                </form>
+                            @endif
+                        </div>
                     </li>
                 @endforeach
             </ul>

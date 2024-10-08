@@ -262,3 +262,24 @@ class CourseController extends Controller
         return redirect()->back()->with('success', 'Student enroled successfully');
     }
 }
+
+/*
+
+Syntax for file:
+
+course
+"Work Integrated Learning - Single Project","7821ICT"
+
+teachers
+s0000001
+s0000002
+
+assessments
+"Week 1 Peer Review","As the title suggests review each other ;)","1","100","2024-10-20 23:59:00"
+"Week 2 Peer Review","As the title suggests review each other ;)","1","100","2024-10-20 23:59:00"
+
+students
+s0000005
+s0000006
+
+*/
