@@ -4,11 +4,11 @@
     <div class="container">
         <h1 class="mb-4">Top Five Reviewers</h1>
 
-        @if ($top_five->isEmpty())
+        @if ($top_five_reviewers->isEmpty())
             <p>No reviewers have been rated yet.</p>
         @else
             <ul class="list-group">
-                @foreach ($top_five as $reviewer)
+                @foreach ($top_five_reviewers as $reviewer)
                     <li class="list-group-item">
                         <div>
                             <h5>{{ $reviewer->reviewer->name }}</h5>

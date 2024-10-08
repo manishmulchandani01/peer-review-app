@@ -11,7 +11,7 @@ class GroupAssignment extends Model
 
     protected $fillable = [
         'assessment_id',
-        'group_number',
+        'g_number',
         'student_id',
     ];
 

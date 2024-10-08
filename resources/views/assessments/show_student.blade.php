@@ -43,47 +43,48 @@
                         <div class="mt-2">
                             <strong>Review:</strong> {{ $review->text }}
                         </div>
+                        <div class="mt-2">
+                            <strong>Rating:</strong> {{ $review->rating ?? 'Unassigned' }}
+                        </div>
                     </li>
                 @endforeach
             </ul>
         @endif
 
-        @if ($assessment->type === 'student-select')
-            <h2 class="mb-4">Give Review</h2>
+        <h2 class="mb-4">Give Review</h2>
 
-            @if ($given_reviews->count() >= $assessment->reviews)
-                <div class="alert alert-success" role="alert">
-                    You have submitted the required number of reviews for this assessment
+        @if ($given_reviews->count() >= $assessment->reviews)
+            <div class="alert alert-success" role="alert">
+                You have submitted the required number of reviews for this assessment
+            </div>
+        @else
+            <form action="{{ route('assessments.submit_review', $assessment->id) }}" method="POST">
+                @csrf
+                <div class="form-group mb-3">
+                    <label for="reviewee_id" class="form-label">Select student to review:</label>
+                    <select name="reviewee_id" id="reviewee_id" class="form-control">
+                        <option value="">Select Student</option>
+                        @foreach ($to_be_reviewed as $reviewee)
+                            <option value="{{ $reviewee->id }}"
+                                {{ old('reviewee_id') == $reviewee->id ? 'selected' : '' }}>{{ $reviewee->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('reviewee_id')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
                 </div>
-            @else
-                <form action="{{ route('assessments.submit_review', $assessment->id) }}" method="POST">
-                    @csrf
-                    <div class="form-group mb-3">
-                        <label for="reviewee_id" class="form-label">Select student to review:</label>
-                        <select name="reviewee_id" id="reviewee_id" class="form-control">
-                            <option value="">Select Student</option>
-                            @foreach ($to_be_reviewed as $reviewee)
-                                <option value="{{ $reviewee->id }}"
-                                    {{ old('reviewee_id') == $reviewee->id ? 'selected' : '' }}>{{ $reviewee->name }}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('reviewee_id')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
 
-                    <div class="form-group mb-3">
-                        <label for="text" class="form-label">Your review (Minimum 5 words):</label>
-                        <textarea name="text" id="text" class="form-control" rows="3">{{ old('text') }}</textarea>
-                        @error('text')
-                            <span class="text-danger">{{ $message }}</span>
-                        @enderror
-                    </div>
+                <div class="form-group mb-3">
+                    <label for="text" class="form-label">Your review (Minimum 5 words):</label>
+                    <textarea name="text" id="text" class="form-control" rows="3">{{ old('text') }}</textarea>
+                    @error('text')
+                        <span class="text-danger">{{ $message }}</span>
+                    @enderror
+                </div>
 
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            @endif
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
         @endif
 
         <h2 class="my-4">Received Reviews</h2>

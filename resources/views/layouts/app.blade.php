@@ -26,7 +26,7 @@
                         <a class="nav-link" href="{{ url('/') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/reviews/top_five') }}">Top Five</a>
+                        <a class="nav-link" href="{{ url('/reviews/top_five_reviewers') }}">Top Five Reviewers</a>
                     </li>
                     @if (Auth::user()->role == 'teacher')
                         <li class="nav-item">

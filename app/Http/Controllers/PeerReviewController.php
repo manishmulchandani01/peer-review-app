@@ -86,10 +86,10 @@ class PeerReviewController extends Controller
         return redirect()->back()->with('success', 'Review rated successfully');
     }
 
-    public function top_five()
+    public function top_five_reviewers()
     {
-        $top_five = PeerReview::select('reviewer_id', DB::raw('AVG(rating) as avg_rating'))->whereNotNull('rate')->groupBy('reviewer_id')->orderByDesc('avg_rating')->take(5)->with('reviewer')->get();
+        $top_five_reviewers = PeerReview::select('reviewer_id', DB::raw('AVG(rating) as avg_rating'))->whereNotNull('rate')->groupBy('reviewer_id')->orderByDesc('avg_rating')->take(5)->with('reviewer')->get();
 
-        return view('reviews.top_five')->with('top_five', $top_five);
+        return view('reviews.top_five_reviewers')->with('top_five_reviewers', $top_five_reviewers);
     }
 }
