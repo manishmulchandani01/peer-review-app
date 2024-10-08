@@ -15,7 +15,7 @@ class ScoresTableSeeder extends Seeder
     {
         DB::table('scores')->insert([
             'assessment_id' => '1',
-            'student_id' => '4',
+            'student_id' => '11',
             'score' => '100',
             'created_at' => now(),
             'updated_at' => now(),
