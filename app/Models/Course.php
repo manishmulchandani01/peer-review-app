@@ -21,11 +21,11 @@ class Course extends Model
 
     public function students()
     {
-        return $this->belongsToMany(User::class, 'enrolments')->where('users.role', 'student');
+        return $this->belongsToMany(User::class, 'enrolments', 'course_id', 's_number', 'id', 's_number')->where('users.role', 'student');
     }
 
     public function teachers()
     {
-        return $this->belongsToMany(User::class, 'enrolments')->where('users.role', 'teacher');
+        return $this->belongsToMany(User::class, 'enrolments', 'course_id', 's_number', 'id', 's_number')->where('users.role', 'teacher');
     }
 }

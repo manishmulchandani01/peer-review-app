@@ -10,17 +10,17 @@ class Enrolment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        's_number',
         'course_id',
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 's_number', 's_number');
     }
 
     public function course()
     {
-        return $this->belongsTo(Course::class);
+        return $this->belongsTo(Course::class, 'course_id', 'id');
     }
 }

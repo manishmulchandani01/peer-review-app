@@ -13,7 +13,7 @@
                 @foreach ($courses as $course)
                     <a href="{{ route('courses.show', $course->id) }}" class="list-group-item list-group-item-action">
                         <h5 class="mb-1">{{ $course->name }}</h5>
-                        <small>{{ $course->code }}</small>
+                        <small>Course code: {{ $course->code }}</small>
                     </a>
                 @endforeach
             </div>

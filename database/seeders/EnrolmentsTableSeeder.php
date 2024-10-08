@@ -16,78 +16,78 @@ class EnrolmentsTableSeeder extends Seeder
         DB::table('enrolments')->truncate();
 
         DB::table('enrolments')->insert([
-            'user_id' => '1',
+            's_number' => 's0000001',
             'course_id' => '1',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
         DB::table('enrolments')->insert([
-            'user_id' => '1',
+            's_number' => 's0000001',
             'course_id' => '2',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
         DB::table('enrolments')->insert([
-            'user_id' => '2',
+            's_number' => 's0000002',
             'course_id' => '3',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
         DB::table('enrolments')->insert([
-            'user_id' => '2',
+            's_number' => 's0000002',
             'course_id' => '4',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
         DB::table('enrolments')->insert([
-            'user_id' => '2',
+            's_number' => 's0000002',
             'course_id' => '5',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
         DB::table('enrolments')->insert([
-            'user_id' => '4',
+            's_number' => 's0000004',
             'course_id' => '1',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
         DB::table('enrolments')->insert([
-            'user_id' => '5',
-            'course_id' => '1',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        DB::table('enrolments')->insert([
-            'user_id' => '6',
-            'course_id' => '1',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        DB::table('enrolments')->insert([
-            'user_id' => '7',
-            'course_id' => '1',
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
-
-        DB::table('enrolments')->insert([
-            'user_id' => '6',
+            's_number' => 's0000004',
             'course_id' => '2',
             'created_at' => now(),
             'updated_at' => now(),
         ]);
 
         DB::table('enrolments')->insert([
-            'user_id' => '7',
+            's_number' => 's0000005',
+            'course_id' => '1',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('enrolments')->insert([
+            's_number' => 's0000005',
             'course_id' => '2',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('enrolments')->insert([
+            's_number' => 's0000005',
+            'course_id' => '3',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('enrolments')->insert([
+            's_number' => 's0000006',
+            'course_id' => '1',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

@@ -2,6 +2,18 @@
 
 @section('content')
     <div class="container">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
         <h1 class="mb-4">{{ $course->name }} ({{ $course->code }})</h1>
 
         <h2>Teachers</h2>
@@ -28,7 +40,7 @@
                     <a class="list-group-item list-group-item-action"
                         href="{{ auth()->user()->role === 'teacher' ? route('assessments.show_teacher', $assessment->id) : route('assessments.show_student', $assessment->id) }}">
                         <h5 class="mb-1">{{ $assessment->title }}</h5>
-                        <small>Due: {{ $assessment->due_date->format('d M y, h:i A') }}</small>
+                        <small>Due date: {{ $assessment->due_date->format('d M y, h:i A') }}</small>
                     </a>
                 @endforeach
             </div>
@@ -40,7 +52,7 @@
             <form class="mb-4" action="{{ route('courses.enrol', $course->id) }}" method="POST">
                 @csrf
                 <div class="form-group mb-3">
-                    <label for="student_id">Select student to enroll:</label>
+                    <label for="student_id">Select student to enrol:</label>
                     <select name="student_id" id="student_id" class="form-control">
                         <option value="">Select Student</option>
                         @foreach ($students as $student)

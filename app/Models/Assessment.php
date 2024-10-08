@@ -28,7 +28,7 @@ class Assessment extends Model
         return $this->belongsTo(Course::class);
     }
 
-    public function peerReviews()
+    public function peer_reviews()
     {
         return $this->hasMany(PeerReview::class);
     }

@@ -101,9 +101,9 @@ class AssessmentController extends Controller
     {
         $assessment = Assessment::findOrFail($id);
 
-        $hasSubmissions = PeerReview::where('assessment_id', $id)->count() > 0;
+        $has_submissions = PeerReview::where('assessment_id', $id)->count() > 0;
 
-        if ($hasSubmissions) {
+        if ($has_submissions) {
             return redirect()->back()->with('error', 'Can not edit assessment as there has already been a submission');
         }
 
@@ -126,9 +126,9 @@ class AssessmentController extends Controller
 
         $assessment = Assessment::findOrFail($id);
 
-        $hasSubmissions = PeerReview::where('assessment_id', $id)->count() > 0;
+        $has_submissions = PeerReview::where('assessment_id', $id)->count() > 0;
 
-        if ($hasSubmissions) {
+        if ($has_submissions) {
             return redirect()->back()->with('error', 'Can not edit assessment as there has already been a submission');
         }
 
@@ -177,7 +177,6 @@ class AssessmentController extends Controller
             'reviewer_id' => $student->id,
             'reviewee_id' => $request->reviewee_id,
             'text' => $request->text,
-            'score' => 1,
         ]);
 
 

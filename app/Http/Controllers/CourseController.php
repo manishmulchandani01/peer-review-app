@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Course;
 use App\Models\User;
 use App\Models\Assessment;
+use Illuminate\Support\Facades\DB;
 
 class CourseController extends Controller
 {
@@ -73,8 +74,8 @@ class CourseController extends Controller
     {
         $course = Course::with(['teachers', 'assessments'])->findOrFail($id);
 
-        $enroledStudentIds = $course->students->pluck('id')->toArray();
-        $students = User::where('role', 'student')->whereNotIn('id', $enroledStudentIds)->get();
+        $enroled_student_ids = $course->students->pluck('id')->toArray();
+        $students = User::where('role', 'student')->whereNotIn('id', $enroled_student_ids)->get();
 
         return view('courses.show')->with('course', $course)->with('students', $students);
     }
@@ -117,7 +118,7 @@ class CourseController extends Controller
 
         $student = User::where('role', 'student')->findOrFail($request->student_id);
 
-        $course->students()->attach($student->id);
+        $course->students()->attach($student->s_number);
 
         return redirect()->back()->with('success', 'Student enroled successfully');
     }
